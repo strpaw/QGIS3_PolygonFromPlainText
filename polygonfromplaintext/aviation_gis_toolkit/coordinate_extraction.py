@@ -4,7 +4,7 @@ coordinate_extraction.py module provides functionality to extracts coordinates f
 # -*- coding: utf-8 -*-
 import re
 from collections import namedtuple
-from aviation_gis_toolkit.const import *
+from .const import *
 
 # Longitude, latitude order
 LL_ORDER_LATLON = 'LL_ORDER_LATLON'

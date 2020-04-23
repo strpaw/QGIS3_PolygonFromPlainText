@@ -91,6 +91,11 @@
     </property>
     <item>
      <property name="text">
+      <string>Select order</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
       <string>LonLat</string>
      </property>
     </item>
@@ -109,6 +114,11 @@
       <height>22</height>
      </rect>
     </property>
+    <item>
+     <property name="text">
+      <string>Select format</string>
+     </property>
+    </item>
     <item>
      <property name="text">
       <string>DMSH comp</string>
@@ -141,6 +151,11 @@
     </property>
     <item>
      <property name="text">
+      <string>Select separator</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
       <string>Not separated</string>
      </property>
     </item>
@@ -165,7 +180,7 @@
      </property>
     </item>
    </widget>
-   <widget class="QLabel" name="label_5">
+   <widget class="QLabel" name="labelSampleCoordPair">
     <property name="geometry">
      <rect>
       <x>18</x>
@@ -181,7 +196,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Example coordinates format</string>
+     <string>Select to see format example</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>

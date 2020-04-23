@@ -30,6 +30,7 @@ from .resources import *
 # Import the code for the dialog
 from .polygon_from_plain_text_dialog import PolygonFromPlainTextDialog
 import os.path
+from .aviation_gis_toolkit.coordinate_extraction import *
 
 
 class PolygonFromPlainText:
@@ -43,6 +44,12 @@ class PolygonFromPlainText:
             application at run time.
         :type iface: QgsInterface
         """
+
+        self.pair_order = None
+        self.pair_format = None
+        self.pair_separator = None
+        self.coord_finder = None
+
         # Save reference to the QGIS interface
         self.iface = iface
         # initialize plugin directory
@@ -63,6 +70,11 @@ class PolygonFromPlainText:
 
         # Create the dialog (after translation) and keep reference
         self.dlg = PolygonFromPlainTextDialog()
+
+        self.dlg.comboBoxOrder.currentIndexChanged.connect(self.get_pair_regex)
+        self.dlg.comboBoxFormat.currentIndexChanged.connect(self.get_pair_regex)
+        self.dlg.comboBoxSeparator.currentIndexChanged.connect(self.get_pair_regex)
+        self.dlg.pushButtonCreatePolygon.clicked.connect(self.create_polygon)
 
         # Declare instance attributes
         self.actions = []
@@ -181,6 +193,59 @@ class PolygonFromPlainText:
         # remove the toolbar
         del self.toolbar
 
+    def set_pair_order(self):
+        """ Sets coordinate order. """
+        if self.dlg.comboBoxOrder.currentIndex() == 0:
+            self.pair_order = None
+        if self.dlg.comboBoxOrder.currentIndex() == 1:
+            self.pair_order = LL_ORDER_LONLAT
+        elif self.dlg.comboBoxOrder.currentIndex() == 2:
+            self.pair_order = LL_ORDER_LATLON
+
+    def set_pair_format(self):
+        """ Sets coordinate format. """
+        if self.dlg.comboBoxFormat.currentIndex() == 0:
+            self.pair_format = None
+        elif self.dlg.comboBoxFormat.currentIndex() == 1:
+            self.pair_format = AF_DMSH_COMP
+        elif self.dlg.comboBoxFormat.currentIndex() == 2:
+            self.pair_format = AF_HDMS_COMP
+        elif self.dlg.comboBoxFormat.currentIndex() == 3:
+            self.pair_format = DMSH_SEP
+        elif self.dlg.comboBoxFormat.currentIndex() == 4:
+            self.pair_format = HDMS_SEP
+
+    def set_pair_separator(self):
+        """ Sets coordinate pair separator. """
+        if self.dlg.comboBoxSeparator.currentIndex() == 0:
+            self.pair_separator = None
+        elif self.dlg.comboBoxSeparator.currentIndex() == 1:  # Null separator
+            self.pair_separator = LL_SEP_NONE
+        elif self.dlg.comboBoxSeparator.currentIndex() == 2:  # Space
+            self.pair_separator = LL_SEP_SPACE
+        elif self.dlg.comboBoxSeparator.currentIndex() == 3:  # Hyphen
+            self.pair_separator = LL_SEP_HYPHEN
+        elif self.dlg.comboBoxSeparator.currentIndex() == 4:
+            self.pair_separator = LL_SEP_SLASH
+        elif self.dlg.comboBoxSeparator.currentIndex() == 5:
+            self.pair_separator = LL_SEP_BACKSLASH
+
+    def get_pair_regex(self):
+        self.set_pair_order()
+        self.set_pair_format()
+        self.set_pair_separator()
+        # Pair separator might be empty string
+        if self.pair_order and self.pair_format and self.pair_separator is not None:
+
+            self.coord_finder = CoordinatePairExtraction(self.pair_order, self.pair_format, self.pair_separator)
+            sample_format = self.coord_finder.get_coordinate_pair_example()
+            self.dlg.labelSampleCoordPair.setText(sample_format)
+        else:
+            self.dlg.labelSampleCoordPair.setText("Select to see format example")
+            self.coord_finder = None
+
+    def create_polygon(self):
+        pass
 
     def run(self):
         """Run method that performs all the real work"""
