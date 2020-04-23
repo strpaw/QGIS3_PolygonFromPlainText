@@ -244,6 +244,11 @@ class PolygonFromPlainText:
             self.dlg.labelSampleCoordPair.setText("Select to see format example")
             self.coord_finder = None
 
+    def extract_coordinates(self):
+        raw_text = self.dlg.textEditPolygonPlainText.toPlainText()
+        coords = self.coord_finder.get_coordinate_pair_list(raw_text)
+        return coords
+
     def create_polygon(self):
         pass
 
