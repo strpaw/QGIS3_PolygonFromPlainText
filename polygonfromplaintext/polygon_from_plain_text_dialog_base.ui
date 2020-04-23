@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PolygonFromPlainTextDialogBase</class>
+ <widget class="QDialog" name="PolygonFromPlainTextDialogBase">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>659</width>
+    <height>431</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>PolygonFromPlainText</string>
+  </property>
+  <widget class="QDialogButtonBox" name="button_box">
+   <property name="geometry">
+    <rect>
+     <x>304</x>
+     <y>398</y>
+     <width>341</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Cancel</set>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>9</y>
+     <width>462</width>
+     <height>117</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Coordinate format definition</string>
+   </property>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>12</x>
+      <y>20</y>
+      <width>87</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Order</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>149</x>
+      <y>20</y>
+      <width>92</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Format</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>25</y>
+      <width>35</width>
+      <height>10</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Separator</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBoxOrder">
+    <property name="geometry">
+     <rect>
+      <x>7</x>
+      <y>38</y>
+      <width>123</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>LonLat</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>LatLon</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="comboBoxFormat">
+    <property name="geometry">
+     <rect>
+      <x>146</x>
+      <y>39</y>
+      <width>142</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>DMSH comp</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>HDMS comp</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>DMSH sep</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>HDMS sep</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="comboBoxSeparator">
+    <property name="geometry">
+     <rect>
+      <x>297</x>
+      <y>38</y>
+      <width>140</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Not separated</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Space</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Hyphen</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Slash</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Backslash</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>18</x>
+      <y>83</y>
+      <width>418</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Example coordinates format</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>16</x>
+     <y>132</y>
+     <width>141</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Polygon plain text</string>
+   </property>
+  </widget>
+  <widget class="QPlainTextEdit" name="plainTextEditPolygonPlainText">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>155</y>
+     <width>636</width>
+     <height>244</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonCreatePolygon">
+   <property name="geometry">
+    <rect>
+     <x>495</x>
+     <y>407</y>
+     <width>85</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Create polygon</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>button_box</sender>
+   <signal>accepted()</signal>
+   <receiver>PolygonFromPlainTextDialogBase</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>button_box</sender>
+   <signal>rejected()</signal>
+   <receiver>PolygonFromPlainTextDialogBase</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
