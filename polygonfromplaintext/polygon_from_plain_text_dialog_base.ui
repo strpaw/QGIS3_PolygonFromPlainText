@@ -216,16 +216,6 @@
     <string>Polygon plain text</string>
    </property>
   </widget>
-  <widget class="QPlainTextEdit" name="plainTextEditPolygonPlainText">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>155</y>
-     <width>636</width>
-     <height>244</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QPushButton" name="pushButtonCreatePolygon">
    <property name="geometry">
     <rect>
@@ -237,6 +227,16 @@
    </property>
    <property name="text">
     <string>Create polygon</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="textEditPolygonPlainText">
+   <property name="geometry">
+    <rect>
+     <x>13</x>
+     <y>150</y>
+     <width>638</width>
+     <height>251</height>
+    </rect>
    </property>
   </widget>
  </widget>

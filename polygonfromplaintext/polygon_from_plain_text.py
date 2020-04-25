@@ -21,16 +21,19 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt5.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
+from PyQt5.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QVariant
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction
+from qgis.core import *
 
 # Initialize Qt resources from file resources.py
 from .resources import *
 # Import the code for the dialog
 from .polygon_from_plain_text_dialog import PolygonFromPlainTextDialog
 import os.path
+import datetime
 from .aviation_gis_toolkit.coordinate_extraction import *
+from .aviation_gis_toolkit.coordinate_predetermined import *
 
 
 class PolygonFromPlainText:
@@ -49,6 +52,7 @@ class PolygonFromPlainText:
         self.pair_format = None
         self.pair_separator = None
         self.coord_finder = None
+        self.lyr_name = None
 
         # Save reference to the QGIS interface
         self.iface = iface
@@ -249,8 +253,75 @@ class PolygonFromPlainText:
         coords = self.coord_finder.get_coordinate_pair_list(raw_text)
         return coords
 
+    @staticmethod
+    def gen_name():
+        """ Generates name for memory layer base on timestamp in format:
+        YYYYY_MMM_DDD_HHMM.ssssss, e.g.: 2020_Apr_Wed_1622.000001. """
+        timestamp = datetime.datetime.now()
+        return timestamp.strftime('%Y_%b_%a_%H%M.%f')
+
+    @staticmethod
+    def create_memory_lyr(lyr_name):
+        """ Create temporary 'memory' layer to store results of calculations.
+        :param lyr_name: string, layer name
+        :return mem_lyr: created memory layer
+        """
+        mem_lyr = QgsVectorLayer('Polygon?crs=epsg:4326', lyr_name, 'memory')
+        prov = mem_lyr.dataProvider()
+        mem_lyr.startEditing()
+        prov.addAttributes([QgsField("POL_ID", QVariant.String)])
+        mem_lyr.commitChanges()
+        QgsProject.instance().addMapLayer(mem_lyr)
+        return mem_lyr
+
+    @staticmethod
+    def add_polygon_to_layer(polygon_id, feat, prov, vertices):
+        """ Adds polygon to feature.
+        :param polygon_id: str, ident of polygon
+        :param feat: Qgsfeature
+        :param prov: QgsProvider
+        :param vertices: list of QgsPoint which form polygon
+        """
+        if polygon_id is not None and len(vertices) < 3:
+            # Need at least 3 vertices to create polygon
+            # TODO: Log error message
+            pass
+        else:
+            # Add polygon to layer
+            if polygon_id is not None:
+                feat.setGeometry(QgsGeometry.fromPolygonXY([vertices]))
+                feat.setAttributes([polygon_id])
+                prov.addFeature(feat)
+
     def create_polygon(self):
-        pass
+        if self.coord_finder:
+            coords = self.extract_coordinates()
+
+            if self.lyr_name:
+                lyr = QgsProject.instance().mapLayersByName(self.lyr_name)[0]
+            else:
+                self.lyr_name = self.gen_name()
+                lyr = self.create_memory_lyr(self.lyr_name)
+
+            prov = lyr.dataProvider()
+            feat = QgsFeature()
+
+            lon = CoordinatePredetermined(ang_type=AT_LON, ang_format=self.pair_format)
+            lat = CoordinatePredetermined(ang_type=AT_LAT, ang_format=self.pair_format)
+
+            vertices = []  # List of vertices for current polygon, QgsPoints
+            for coord in coords:
+                if self.pair_order == LL_ORDER_LONLAT:
+                    lon_dd = lon.coordinate_to_dd(coord[0])
+                    lat_dd = lat.coordinate_to_dd(coord[1])
+                elif self.pair_order == LL_ORDER_LATLON:
+                    lon_dd = lon.coordinate_to_dd(coord[1])
+                    lat_dd = lat.coordinate_to_dd(coord[0])
+
+                vertex = QgsPointXY(lon_dd, lat_dd)
+                vertices.append(vertex)
+
+            self.add_polygon_to_layer('1', feat, prov, vertices)
 
     def run(self):
         """Run method that performs all the real work"""
