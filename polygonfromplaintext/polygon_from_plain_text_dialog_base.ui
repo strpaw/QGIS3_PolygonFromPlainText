@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>659</width>
-    <height>431</height>
+    <width>675</width>
+    <height>481</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QDialogButtonBox" name="button_box">
    <property name="geometry">
     <rect>
-     <x>304</x>
-     <y>398</y>
+     <x>354</x>
+     <y>448</y>
      <width>341</width>
      <height>32</height>
     </rect>
@@ -206,8 +206,8 @@
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>16</x>
-     <y>132</y>
+     <x>20</x>
+     <y>158</y>
      <width>141</width>
      <height>16</height>
     </rect>
@@ -219,8 +219,8 @@
   <widget class="QPushButton" name="pushButtonCreatePolygon">
    <property name="geometry">
     <rect>
-     <x>495</x>
-     <y>407</y>
+     <x>543</x>
+     <y>451</y>
      <width>85</width>
      <height>20</height>
     </rect>
@@ -233,10 +233,33 @@
    <property name="geometry">
     <rect>
      <x>13</x>
-     <y>150</y>
-     <width>638</width>
-     <height>251</height>
+     <y>177</y>
+     <width>685</width>
+     <height>267</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditPolygonID">
+   <property name="geometry">
+    <rect>
+     <x>92</x>
+     <y>130</y>
+     <width>273</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>19</x>
+     <y>136</y>
+     <width>63</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Polygon ID</string>
    </property>
   </widget>
  </widget>

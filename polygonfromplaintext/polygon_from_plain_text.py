@@ -23,7 +23,7 @@
 """
 from PyQt5.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QVariant
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QAction
+from PyQt5.QtWidgets import QAction, QWidget, QMessageBox
 from qgis.core import *
 
 # Initialize Qt resources from file resources.py
@@ -282,19 +282,17 @@ class PolygonFromPlainText:
         :param prov: QgsProvider
         :param vertices: list of QgsPoint which form polygon
         """
-        if polygon_id is not None and len(vertices) < 3:
+        if len(vertices) < 3:
             # Need at least 3 vertices to create polygon
             # TODO: Log error message
             pass
         else:
-            # Add polygon to layer
-            if polygon_id is not None:
-                feat.setGeometry(QgsGeometry.fromPolygonXY([vertices]))
-                feat.setAttributes([polygon_id])
-                prov.addFeature(feat)
+            feat.setGeometry(QgsGeometry.fromPolygonXY([vertices]))
+            feat.setAttributes([polygon_id])
+            prov.addFeature(feat)
 
     def create_polygon(self):
-        if self.coord_finder:
+        if self.coord_finder and self.dlg.lineEditPolygonID.text().strip() != '':
             coords = self.extract_coordinates()
 
             if self.lyr_name:
@@ -321,7 +319,9 @@ class PolygonFromPlainText:
                 vertex = QgsPointXY(lon_dd, lat_dd)
                 vertices.append(vertex)
 
-            self.add_polygon_to_layer('1', feat, prov, vertices)
+            self.add_polygon_to_layer(self.dlg.lineEditPolygonID.text(), feat, prov, vertices)
+        else:
+            QMessageBox.critical(QWidget(), "Message", 'Polygon ID is required!')
 
     def run(self):
         """Run method that performs all the real work"""
